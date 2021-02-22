@@ -19,7 +19,6 @@ mongoose
   })
   .then(() => {
     console.log("DB Connected!");
-    console.log("env -------->", process.env.DATABASE);
   })
   .catch((err) => console.log(`DB Connection Faild ${err}`));
 
