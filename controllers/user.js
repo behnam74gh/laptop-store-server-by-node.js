@@ -149,7 +149,7 @@ exports.orders = async (req, res) => {
 
   res.json(userOrders);
 };
-//COD
+//COD = Cash On Delivery
 exports.createCashOrder = async (req, res) => {
   const { COD, couponApplied } = req.body;
   //if COD is true ? create order with status Cash On Delivery
