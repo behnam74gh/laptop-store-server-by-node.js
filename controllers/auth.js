@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
     res.json({ success: false, errorMessage: "email already exist!" });
   }
 
-  // //email content
+  //email content
   const output = `
     <h3 style="color: red">laptop Ecommerce authentication</h3>
     <p>is this your email? are you sure?</p>

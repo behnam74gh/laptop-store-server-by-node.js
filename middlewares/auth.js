@@ -11,6 +11,7 @@ exports.authCheck = async (req, res, next) => {
         process.env.JWT_SECRET || "ecommercesecret",
         (err, decode) => {
           if (err) {
+            console.log(err);
             res.status(401).send({ message: "Invalid Token!" });
           } else {
             req.user = decode;

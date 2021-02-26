@@ -1,7 +1,6 @@
 const Product = require("../models/product");
 const slugify = require("slugify");
 const User = require("../models/user");
-const { aggregate } = require("../models/product");
 
 exports.create = async (req, res) => {
   try {
