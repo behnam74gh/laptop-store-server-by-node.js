@@ -2,6 +2,8 @@ const User = require("../models/user");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../middlewares/util");
+const request = require("request");
+const { json } = require("body-parser");
 
 //register
 exports.register = async (req, res) => {
@@ -104,5 +106,41 @@ exports.changePassword = async (req, res) => {
     res.json({ message: "password updated correctly!" });
   } catch (error) {
     console.log(error);
+  }
+};
+
+//reCaptchaCheck
+
+exports.reCaptchaCheck = async (req, res) => {
+  const { secToken } = req.body;
+  try {
+    if (secToken === null || secToken === undefined || secToken === "") {
+      return res.json({ success: false, msg: "Please Select reCAPTCHA" });
+    }
+
+    //secret_key
+    const secretKey = "6LcsLmwaAAAAAFH2WL9DJKJgTWKdKbnFz6uv5cnO";
+
+    //Verify URL
+    const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${secToken}&remoteip=${req.connection.remoteAddress}`;
+
+    //make Request to verifyURL
+    request(verifyUrl, (err, response, body) => {
+      body = JSON.parse(body);
+
+      //if Not successful
+      if (body.success !== undefined && !body.success) {
+        return res.json({
+          success: false,
+          msg: "Failed captcha verification!",
+        });
+      }
+
+      //if successful
+      return res.json({ success: true, msg: "reCAPTCHA passed" });
+    });
+  } catch (error) {
+    console.log(error);
+    res.send(error);
   }
 };
